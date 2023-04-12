@@ -1,14 +1,44 @@
 public class GuessKey {
     public void start() {
         SecretKey2 key = new SecretKey2();
-        String str = "MMITRMITRMITRMTT";
+        String str = "MITRMITRMITRMITR";
+        int endIdx = str.length();
         int match = key.guess(str);
-        do {
-            if (match != 16) {
-                str = next(str, match, str.length(), key);
-                match = key.guess(str);
+        while (match != -1 && match != 16) {
+            char[] curr = str.toCharArray();
+            String s;
+            int newMatch;
+            if (order(curr[endIdx - 1]) < 3) {
+                // increase this one and stop
+                curr[endIdx - 1] = charOf(order(curr[endIdx - 1]) + 1);
+            } else {
+                curr[endIdx - 1] = 'R';
             }
-        } while (match != -1 && match != 16);
+            s = String.valueOf(curr);
+            System.out.println("Guessing... " + s);
+            newMatch = key.guess(s);
+            // Check if the program changed a character that already matches the correct key.
+            if (match > newMatch) {
+                if (order(curr[endIdx - 1]) > 0) {
+                    // Decrease this one and stop
+                    curr[endIdx - 1] = charOf(order(curr[endIdx - 1]) - 1);
+                } else {
+                    curr[endIdx - 1] = 'T';
+                }
+                str = String.valueOf(curr);
+                endIdx--;
+            }
+            // Check if the program got a right character
+            else if (match < newMatch) {
+                endIdx--;
+                match = newMatch;
+                str = s;
+            }
+            // When the changed character doesn't match the one from the correct key
+            else {
+                str = s;
+            }
+        }
         System.out.println("I found the secret key. It is " + str);
     }
 
@@ -32,46 +62,5 @@ public class GuessKey {
             return 'I';
         }
         return 'T';
-    }
-
-    // return the next value in 'RMIT' order, that is
-    // R < M < I < T
-    // Recursively go through the method until it matches the correct key
-    public String next(String current, int match, int length, SecretKey2 key) {
-        char[] curr = current.toCharArray();
-        String s = String.valueOf(curr);
-        int newMatch;
-        if (length > 0 && match != 16) {
-            if (order(curr[length - 1]) < 3) {
-                // increase this one and stop
-                curr[length - 1] = charOf(order(curr[length - 1]) + 1);
-            } else {
-                curr[length - 1] = 'R';
-            }
-            s = String.valueOf(curr);
-            System.out.println("Guessing... " + s);
-            newMatch = key.guess(s);
-
-            // Check if the program changed a right character that doesn't need to be changed.
-            if (match > newMatch) {
-                if (order(curr[length - 1]) > 0) {
-                    // Decrease this one and stop
-                    curr[length - 1] = charOf(order(curr[length - 1]) - 1);
-                } else {
-                    curr[length - 1] = 'T';
-                }
-                s = String.valueOf(curr);
-                s = next(s, match, length - 1, key);
-            }
-            // Check if the program got a right character
-            else if (match < newMatch) {
-                s = next(s, newMatch, length - 1, key);
-            }
-            // When the changed character doesn't match the one from the correct key
-            else {
-                s = next(s, newMatch, length, key);
-            }
-        }
-        return s;
     }
 }
