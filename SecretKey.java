@@ -31,6 +31,10 @@ public class SecretKey {
     }
 
     public static void main(String[] args) {
-        new SecretKeyGuesser().start();
+        // Old Brute Force Method
+        // new SecretKeyGuesser().start();
+
+        // New Linear Search Method
+        new DuySecretKeyGuesser().start();
     }
 }
