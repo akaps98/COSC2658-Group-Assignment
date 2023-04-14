@@ -35,6 +35,9 @@ public class SecretKey {
         // new SecretKeyGuesser().start();
 
         // New Linear Search Method
-        new DuySecretKeyGuesser().start();
+        // new DuySecretKeyGuesser().start();
+
+        // Improved Linear Search Method (Using 2 pointers, start and end index)
+        new DuySecretKeyGuesserImproved().start();
     }
 }

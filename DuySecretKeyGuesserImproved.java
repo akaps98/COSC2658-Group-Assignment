@@ -6,7 +6,7 @@
  * @since 12 - 04 - 2023
  */
 
-public class DuySecretKeyGuesser {
+public class DuySecretKeyGuesserImproved {
     public void start() {
         // Linear searching approach key guessing
         SecretKey key = new SecretKey();
@@ -17,11 +17,21 @@ public class DuySecretKeyGuesser {
         System.out.println("Number of correct keys: " + currentGuess); // This is our initial number of correct keys
 
         int afterGuess; // Variable that stores the new number of correct keys each time we change the input string
-        int checkingIndex = 0; // Starting index to check
+        int startIndex = 0; // Starting index to check
+        int endingIndex = str.length(); // Ending index to check
+        int checkingIndex = startIndex;
+        boolean check = true; 
 
         // Iterating through all the index in the provided string
         while (currentGuess != 16) {
             char[] curr = str.toCharArray();
+
+            if (check == true) {
+                checkingIndex = startIndex;
+            } else {
+                checkingIndex = endingIndex;
+            }
+
             for (int i = 0; i < 4; i++)  { // Iterate at most 3 times in either order from these 4 letters: R -> M -> I -> T
 
                 if (curr[checkingIndex] == charOf(i)) { // Only changes the other 3 letters
@@ -38,17 +48,24 @@ public class DuySecretKeyGuesser {
                 if (afterGuess > currentGuess) { // Case 1: If the number of correct keys increase --> update the string with the new character at this index
                     System.out.println("Number of correct keys has increased! --> change to new character at position " + String.valueOf(checkingIndex + 1));
                     currentGuess++;
+                    check = true;
                     str = checkStr;
                     break;
                 }
                 if (afterGuess < currentGuess) { // Case 2: If the number of correct keys decrease --> do not update the string and keep the current character at this index
                     System.out.println("Number of correct keys has decreased! --> keep the old character and proceeding to next index");
+                    check = false;
                     break;
                 }
                 System.out.println("Number of correct keys is the same! --> let's try a different character");
                 // Case 3: else, if the number of correct keys remain the same, change the keys until case 1 or case 2 appear
             }
-            checkingIndex++; // check the next index
+            if (check == true) { // check the next index
+                startIndex++;
+            } else {
+                endingIndex--;
+            }
+            // checkingIndex++; // check the next index
         }
         System.out.println("I found the secret key. It is " + str);
     }
@@ -86,3 +103,4 @@ public class DuySecretKeyGuesser {
         return 'T';
     }
 }
+
