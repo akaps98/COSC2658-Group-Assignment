@@ -36,13 +36,16 @@ public class DuySecretKeyGuesser {
                 System.out.println("Number of correct keys: " + afterGuess);
 
                 if (afterGuess > currentGuess) { // Case 1: If the number of correct keys increase --> update the string with the new character at this index
+                    System.out.println("Number of correct keys has increased! --> change to new character at position " + String.valueOf(checkingIndex + 1));
                     currentGuess++;
                     str = checkStr;
                     break;
                 }
                 if (afterGuess < currentGuess) { // Case 2: If the number of correct keys decrease --> do not update the string and keep the current character at this index
+                    System.out.println("Number of correct keys has decreased! --> keep the old character and proceeding to next index");
                     break;
                 }
+                System.out.println("Number of correct keys is the same! --> let's try a different character");
                 // else, if the number of correct keys remain the same, change the keys until case 1 or case 2 appear
             }
             checkingIndex++; // check the next index
