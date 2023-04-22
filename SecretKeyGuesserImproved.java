@@ -5,7 +5,7 @@ import java.util.Arrays;
 public class SecretKeyGuesserImproved {
     public void start() {
         SecretKey2 key = new SecretKey2();
-        String str = "RMIRRITTMRITRMIT";
+        String str = "RTIRMMIRTTTTMRIM";
         int idx1 = 0;
         int idx2 = str.length() - 1;
         boolean isFront = true;
@@ -14,38 +14,41 @@ public class SecretKeyGuesserImproved {
         int match = key.guess(str);
 
         // This is for checking indexes that matches current key
-        for (int i = str.length() - 1; i >= 0; i--) {
-            char[] c = str.toCharArray();
-            String s;
-            toNextChar(c, i); // 1
-            s = String.valueOf(c);
-            System.out.println("Guessing... " + s);
-            int newMatch = key.guess(s);
-            if (newMatch > match) {
-                isMatched[i] = true;
-                str = s;
-                match = newMatch;
-            } else if (match > newMatch) {
-                isMatched[i] = true;
-            } else{
-                str = s;
+        if(match != 16 && match != -1){
+            for (int i = str.length() - 1; i >= 0; i--) {
+                char[] c = str.toCharArray();
+                String s;
+                toNextChar(c, i); // 1
+                s = String.valueOf(c);
+                System.out.println("Guessing... " + s);
+                int newMatch = key.guess(s);
+                if (newMatch > match) {
+                    isMatched[i] = true;
+                    str = s;
+                    match = newMatch;
+                } else if (match > newMatch) {
+                    isMatched[i] = true;
+                } else {
+                    str = s;
+                }
             }
         }
         while (match != -1 && match != 16) {
-            // Skip current loop if the character in current index already matches the key.
-            if (isMatched[idx1]) {
-                idx1++;
-                isFront = false;
-                continue;
-            } else if (isMatched[idx2]) {
-                idx2--;
-                isFront = true;
-                continue;
-            }
             if(isFront){
                 checkingIdx = idx1;
             }else{
                 checkingIdx = idx2;
+            }
+            // Skip current loop if the character in current index already matches the key.
+            if (isMatched[checkingIdx]) {
+                if(isFront){
+                    idx1++;
+                    isFront = false;
+                }else {
+                    idx2--;
+                    isFront = true;
+                }
+                continue;
             }
             char[] curr = str.toCharArray();
             int newMatch;
