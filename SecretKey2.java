@@ -31,6 +31,6 @@ public class SecretKey2 {
     }
 
     public static void main(String[] args) {
-        new GuessKey().start();
+        new SecretKeyGuesserImproved().start();
     }
 }

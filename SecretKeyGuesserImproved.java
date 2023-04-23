@@ -1,7 +1,3 @@
-package A2;
-
-import java.util.Arrays;
-
 public class SecretKeyGuesserImproved {
     public void start() {
         SecretKey2 key = new SecretKey2();

@@ -3,10 +3,10 @@ public class SecretKeyGuesser {
         // brute force key guessing
         SecretKey key = new SecretKey();
         String str = "RRRRRRRRRRRRRRRR";
-        while (key.guess(str) != 16) {
-            str = next(str);
-            System.out.println("Guessing... " + str);
-        }
+//        while (key.guess(str) != 16) {
+//            str = next(str);
+//            System.out.println("Guessing... " + str);
+//        }
         System.out.println("I found the secret key. It is " + str);
     }
 

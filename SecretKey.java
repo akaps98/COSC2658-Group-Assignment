@@ -42,6 +42,6 @@ public class SecretKey {
     }
 
     public static void main(String[] args) {
-        new way1().start();
+        // new way1().start();
     }
 }
