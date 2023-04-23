@@ -1,12 +1,13 @@
 public class SecretKeyGuesserImproved {
     public void start() {
         SecretKey key = new SecretKey();
-        String str = "TMMRMIRRRIIMTMRR";
+        String str = "RRRRRRRRRRRRRRRT";
         int idx1 = 0;
         int idx2 = str.length() - 1;
         boolean isFront = true;
         int checkingIdx;
         int match = key.guess(str);
+        System.out.println("Guessing... " + str);
 
         while (match != -1 && match != 16) {
             if(isFront){
