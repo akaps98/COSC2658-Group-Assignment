@@ -20,7 +20,7 @@ public class DuySecretKeyGuesserImproved {
         int startIndex = 0; // Starting index to check
         int endingIndex = str.length(); // Ending index to check
         int checkingIndex = startIndex;
-        boolean check = true; 
+        boolean check = true; // To check whether we should use start index or switch to end index
 
         // Iterating through all the index in the provided string
         while (currentGuess != 16) {
