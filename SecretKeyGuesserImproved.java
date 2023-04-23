@@ -1,6 +1,6 @@
 public class SecretKeyGuesserImproved {
     public void start() {
-        SecretKey2 key = new SecretKey2();
+        SecretKey key = new SecretKey();
         String str = "TMMRMIRRRIIMTMRR";
         int idx1 = 0;
         int idx2 = str.length() - 1;
