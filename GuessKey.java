@@ -1,6 +1,6 @@
 public class GuessKey {
     public void start() {
-        SecretKey2 key = new SecretKey2();
+        SecretKey key = new SecretKey();
         String str = "MITRMITRMITRMITR";
         int endIdx = str.length();
         int match = key.guess(str);
