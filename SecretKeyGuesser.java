@@ -1,51 +1,21 @@
 public class SecretKeyGuesser {
     public void start() {
         SecretKey key = new SecretKey();
-        String str = "RTIRMMIRTTTTMRIM";
+        String str = "ITMRMRRITMRITMRT";
         int idx1 = 0;
         int idx2 = str.length() - 1;
         boolean isFront = true;
         int checkingIdx;
-        boolean[] isMatched = new boolean[str.length()];
         int match = key.guess(str);
+        System.out.println("Guessing... " + str);
 
-        // This is for checking indexes that matches current key
-        if(match != 16 && match != -1){
-            for (int i = str.length() - 1; i >= 0; i--) {
-                char[] c = str.toCharArray();
-                String s;
-                toNextChar(c, i); // 1
-                s = String.valueOf(c);
-                System.out.println("Guessing... " + s);
-                int newMatch = key.guess(s);
-                if (newMatch > match) {
-                    isMatched[i] = true;
-                    str = s;
-                    match = newMatch;
-                } else if (match > newMatch) {
-                    isMatched[i] = true;
-                } else {
-                    str = s;
-                }
-            }
-        }
         while (match != -1 && match != 16) {
             if(isFront){
                 checkingIdx = idx1;
             }else{
                 checkingIdx = idx2;
             }
-            // Skip current loop if the character in current index already matches the key.
-            if (isMatched[checkingIdx]) {
-                if(isFront){
-                    idx1++;
-                    isFront = false;
-                }else {
-                    idx2--;
-                    isFront = true;
-                }
-                continue;
-            }
+
             char[] curr = str.toCharArray();
             int newMatch;
             // Check if the program changed a character that already matches the correct key.
@@ -58,16 +28,23 @@ public class SecretKeyGuesser {
                 match = newMatch;
                 str = s;
             } else if(newMatch == match) {
-                // Since there are only 4 characters available in order to create a key
-                // The character in the current index must match the one in the secret key
-                // When it moves once more to a next char
-                toNextChar(curr, checkingIdx); // 3
+                toNextChar(curr, checkingIdx);
                 s = String.valueOf(curr);
-                newMatch++;
-                str = s;
-                if(newMatch == 16){
-                    key.guess(s);
+                newMatch = key.guess(s);
+                System.out.println("Guessing... " + s);
+                if(newMatch == match) {
+                    // Since there are only 4 characters available in order to create a key
+                    // The character in the current index must match the one in the secret key
+                    // When it moves once more to a next char
+                    toNextChar(curr, checkingIdx); // 3
+                    s = String.valueOf(curr);
+                    System.out.println("Guessing... " + s);
+                    newMatch++;
+                    if(newMatch == 16){
+                        key.guess(s);
+                    }
                 }
+                str = s;
                 match = newMatch;
             }
             if(isFront){
