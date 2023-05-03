@@ -1,7 +1,8 @@
+
 public class SecretKeyGuesser {
     public void start() {
         SecretKey key = new SecretKey();
-        String str = "ITMRMRRITMRITMRT";
+        String str = "RRRRRRRRRRRRRRRT";
         int idx1 = 0;
         int idx2 = str.length() - 1;
         boolean isFront = true;
@@ -23,20 +24,23 @@ public class SecretKeyGuesser {
 
                 char[] curr = str.toCharArray();
                 int newMatch;
-                // Check if the program changed a character that already matches the correct key.
-                toNextChar(curr, checkingIdx); // 2
+                toNextChar(curr, checkingIdx); // 1
                 String s;
                 s = String.valueOf(curr);
                 System.out.println("Guessing... " + s);
                 newMatch = key.guess(s);
+
+                // Check if a character that the program changed matches the correct key.
                 if (newMatch > match) {
                     match = newMatch;
                     str = s;
-                } else if (newMatch == match) {
-                    toNextChar(curr, checkingIdx);
+                }
+                // A changed character doesn't match the one in the correct key
+                else if (newMatch == match) {
+                    toNextChar(curr, checkingIdx); // 2
                     s = String.valueOf(curr);
-                    newMatch = key.guess(s);
                     System.out.println("Guessing... " + s);
+                    newMatch = key.guess(s);
                     if (newMatch == match) {
                         // Since there are only 4 characters available in order to create a key
                         // The character in the current index must match the one in the secret key
@@ -45,6 +49,7 @@ public class SecretKeyGuesser {
                         s = String.valueOf(curr);
                         System.out.println("Guessing... " + s);
                         newMatch++;
+
                         if (newMatch == 16) {
                             key.guess(s);
                         }
@@ -52,6 +57,8 @@ public class SecretKeyGuesser {
                     str = s;
                     match = newMatch;
                 }
+                // No case for deduction of newMatch(When the original guess key was correct)
+                // since there's no change needed
                 if (isFront) {
                     idx1++;
                     isFront = false;
