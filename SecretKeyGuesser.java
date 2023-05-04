@@ -2,19 +2,19 @@
 public class SecretKeyGuesser {
     public void start() {
         SecretKey key = new SecretKey();
-        String str = "RRRRRRRRRRRRRRRT";
+        String guessKey = "RRRRRRRRRRRRRRRT";
         int idx1 = 0;
-        int idx2 = str.length() - 1;
+        int idx2 = guessKey.length() - 1;
         boolean isFront = true;
         int checkingIdx;
-        int match = key.guess(str);
+        int match = key.guess(guessKey);
 
         // Doesn't go through the loop if a user enters an invalid value.
         // When it gets -1 from the 'guess' method
         if(match == -1){
             System.out.println("Invalid! Please enter a valid key!!");
         } else {
-            System.out.println("Guessing... " + str);
+            System.out.println("Guessing... " + guessKey);
             while (match != 16) {
                 if (isFront) {
                     checkingIdx = idx1;
@@ -22,7 +22,7 @@ public class SecretKeyGuesser {
                     checkingIdx = idx2;
                 }
 
-                char[] curr = str.toCharArray();
+                char[] curr = guessKey.toCharArray();
                 int newMatch;
                 toNextChar(curr, checkingIdx); // 1
                 String s;
@@ -33,7 +33,7 @@ public class SecretKeyGuesser {
                 // Check if a character that the program changed matches the correct key.
                 if (newMatch > match) {
                     match = newMatch;
-                    str = s;
+                    guessKey = s;
                 }
                 // A changed character doesn't match the one in the correct key
                 else if (newMatch == match) {
@@ -54,7 +54,7 @@ public class SecretKeyGuesser {
                             key.guess(s);
                         }
                     }
-                    str = s;
+                    guessKey = s;
                     match = newMatch;
                 }
                 // No case for deduction of newMatch(When the original guess key was correct)
@@ -67,7 +67,7 @@ public class SecretKeyGuesser {
                     isFront = true;
                 }
             }
-            System.out.println("I found the secret key. It is " + str);
+            System.out.println("I found the secret key. It is " + guessKey);
         }
     }
 
